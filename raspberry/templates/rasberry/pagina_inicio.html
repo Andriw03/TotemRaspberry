@@ -20,19 +20,15 @@
   <body>
     <!-- Button trigger modal -->
 
-  <div class="d-grid gap-2 col-6 mt-5 mx-auto p-3 bg-info bg-opacity-10 border border-info border-0 rounded-end">
-    <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal1">
-        Entrada
-      </button>  
-      <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal2">
-        Salida
-      </button>  
 
-</div>
   
     <form method="post">
     {% csrf_token %}
-    
+    <div class="d-grid gap-2 col-6 mt-5 mx-auto p-3 bg-info bg-opacity-10 border border-info border-0 rounded-end">
+      <input type="submit" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal1" name="entrada" value="Entrada">
+      <input type="submit"  class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal2" name="salida" value="Salida">
+  
+  </div>
     </form>
     <!-- Modal -->
   <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

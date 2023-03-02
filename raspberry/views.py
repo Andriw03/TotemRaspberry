@@ -1,6 +1,4 @@
-from django.shortcuts import render
-import time
-import cv2
+from django.shortcuts import render 
 import PySimpleGUI as sg
 import usb.core
 import usb.util
