@@ -1,16 +1,9 @@
 from django.shortcuts import render
 import time
-import PySimpleGUI as sg
-import usb.core
-import usb.util
-import PySimpleGUI as sg
-import serial
-import RPi.GPIO as GPIO
+
 
 # Configurar los pines 23 y 24 como entrada
-GPIO.setmode(GPIO.BCM)
-GPIO.setup(23, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-GPIO.setup(24, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+
 
 # Create your views here.
 def pagina_inicio(request):
@@ -18,14 +11,9 @@ def pagina_inicio(request):
     mensaje =''
     if request.method == 'POST':
         if 'entrada' in request.POST:
-            if GPIO.input(23) == GPIO.LOW:
-                print("Oye yapo funciona")
-            elif 'salida' in request.POST:
-                print ('salida')
-                rut = request.POST.get('rutSalida')
-                print(rut)
-        return render(request,'rasberry/pagina_inicio.html')
-
+            print("Oye yapo funciona")
+        elif 'salida' in request.POST:
+            print ('salida') 
 
     return render(request,'rasberry/pagina_inicio.html')
 
