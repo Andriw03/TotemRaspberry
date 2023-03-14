@@ -1,8 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 import time
-
-
-# Configurar los pines 23 y 24 como entrada
+import tkinter as tk
 
 
 # Create your views here.
@@ -10,17 +8,28 @@ def pagina_inicio(request):
     
     mensaje =''
     if request.method == 'POST':
-        if 'entrada' in request.POST:
+        if 'btnEntrada' in request.POST:
             print("Oye yapo funciona")
+            return redirect('ingresar_rut')
         elif 'salida' in request.POST:
             print ('salida') 
 
     return render(request,'rasberry/pagina_inicio.html')
 
+def ingresar_rut(request):
+    return render(request,'rasberry/ingresar_rut.html')
 
-def prueba():
-    print('Hola')
-        
+
+def entrada(request, id):
+    print('Presiono Entrada ' + str(id))  
+    return redirect('ingresar_rut')
+    #return render(request,'rasberry/ingresar_rut.html')
+
+def salida(request):
+    print("Ingresar Tip al scanner para Salida")
+    rut_salida = input("")
+    print('Presiono Salida')
+    return render(request,'rasberry/pagina_inicio.html')    
 
 
 
