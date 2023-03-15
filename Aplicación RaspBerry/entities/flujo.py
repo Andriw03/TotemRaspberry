@@ -1,7 +1,7 @@
 class Flujo:
-    idFlujo: int
-    rutTrabajador: str
-    sentido:str
-    fechaHora:str
-    dirFoto:str
-    idMCA:int
+    idFlujo= 0
+    rutTrabajador= ''
+    sentido=''
+    fechaHora=''
+    dirFoto=''
+    idMCA=0

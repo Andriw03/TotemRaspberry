@@ -11,3 +11,4 @@ def getApi(tabla):
 
 def agregarFlujo(data):
     response = requests.post(url,data=data)
+

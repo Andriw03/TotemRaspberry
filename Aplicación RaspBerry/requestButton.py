@@ -3,9 +3,16 @@ import requests
 import time
 import PySimpleGUI as sg
 import re
-from servicios import ApiTotem, django, formatear_rut
+from servicios import ApiTotem, django, formatear_rut, obtenerMC
 from vista import index
+from entities.flujo import Flujo
+from entities.persona import Persona
 import datetime
+
+
+#Al iniciar 
+mc = obtenerMC.obtenerMac()
+mc = ApiTotem.getApi(f'mca/{mc}')
 # Configurar los pines GPIO
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(23, GPIO.IN, pull_up_down=GPIO.PUD_UP)
@@ -44,6 +51,33 @@ while True:
         response = django.entradaDjango(rut)
         data = ApiTotem.getApi(f'persona/{formatear_rut.format_rut(rut)}')
         index.popUp('Bienvenido: ' + data['nombrefull']+ '\nRut: '+ data['nombrefull']+ '\nHora de entrada: '+ str(fecha), 'Saludo',5)
+        data = ApiTotem.getApi('flujo')
+        flujo = Flujo()
+        if data:
+            for f in data:
+                flujo.idFlujo = int(f['idFlujo']) + 1
+        else:
+            flujo.idFlujo = 1
+        flujo.mc['idMCA']
+        flujo.dirFoto = ''
+        flujo.fechaHora = str(fecha)
+        flujo.rutTrabajador = rut
+        flujo.sentido = 1
+        dataFlujo ={
+            'idFlujo': flujo.idFlujo,
+
+            'rutTrabajador': flujo.rutTrabajador,
+
+            'sentido': flujo.sentido,
+
+            'fechaHora': flujo.fechaHora,
+
+            'dirFoto': flujo.dirFoto,
+
+            'idMCA': flujo.idMCA 
+        }
+        response = ApiTotem.agregarFlujo(dataFlujo)
+        print(response)
         boton_pulsado_entrada = False
         print("Botón HTML pulsado")
         
