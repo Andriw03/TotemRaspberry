@@ -10,5 +10,6 @@ def getApi(tabla):
         return response.status_code
 
 def agregarFlujo(data):
-    response = requests.post(url,data=data)
+    response = requests.post(url+'flujo',data=data)
+    return response
 

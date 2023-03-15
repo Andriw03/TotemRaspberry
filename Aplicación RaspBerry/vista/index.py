@@ -1,6 +1,6 @@
 import PySimpleGUI as sg
 from servicios import ApiTotem, django, formatear_rut
-
+import time
 def ventanaInicio():
     sg.theme('DarkBlue')
 
@@ -23,8 +23,12 @@ def ventanaInicio():
             break
         if event == '-NUM-':
             rut = values['-NUM-']
-            if len(rut)== 9 :
+            print(rut)
+            if not rut.isnumeric() :
+                print('algo')
+            elif len(rut)== 9 :
                 data = ApiTotem.getApi(f'persona/{formatear_rut.format_rut(rut)}')
+                time.sleep(5)
                 break
 
     # Cerramos la ventana
@@ -33,3 +37,5 @@ def ventanaInicio():
 
 def popUp(mensaje, title, duracion):
     sg.Popup(mensaje, title=title,auto_close=True,auto_close_duration=duracion)
+
+   

@@ -13,6 +13,7 @@ import datetime
 #Al iniciar 
 mc = obtenerMC.obtenerMac()
 mc = ApiTotem.getApi(f'mca/{mc}')
+print(mc)
 # Configurar los pines GPIO
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(23, GPIO.IN, pull_up_down=GPIO.PUD_UP)
@@ -46,11 +47,12 @@ while True:
     if boton_pulsado_entrada:
         # Simular clic en el botón HTML
         fecha = datetime.datetime.now()
+        fecha = str(fecha.strftime('%Y-%m-%d %H:%M:%S.%f')[:-3])
         response = django.entradaDjango(1)
         rut = index.ventanaInicio()
+        rut = formatear_rut.format_rut(rut)
+        print(rut)
         response = django.entradaDjango(rut)
-        data = ApiTotem.getApi(f'persona/{formatear_rut.format_rut(rut)}')
-        index.popUp('Bienvenido: ' + data['nombrefull']+ '\nRut: '+ data['nombrefull']+ '\nHora de entrada: '+ str(fecha), 'Saludo',5)
         data = ApiTotem.getApi('flujo')
         flujo = Flujo()
         if data:
@@ -58,9 +60,9 @@ while True:
                 flujo.idFlujo = int(f['idFlujo']) + 1
         else:
             flujo.idFlujo = 1
-        flujo.mc['idMCA']
+        flujo.idMCA = mc['idMCA']
         flujo.dirFoto = ''
-        flujo.fechaHora = str(fecha)
+        flujo.fechaHora = fecha
         flujo.rutTrabajador = rut
         flujo.sentido = 1
         dataFlujo ={
@@ -77,17 +79,48 @@ while True:
             'idMCA': flujo.idMCA 
         }
         response = ApiTotem.agregarFlujo(dataFlujo)
-        print(response)
+        data = ApiTotem.getApi(f'persona/{formatear_rut.format_rut(rut)}')
+        index.popUp('Bienvenido: ' + data['nombrefull']+ '\nRut: '+ data['rutfull']+ '\nHora de entrada: '+ str(fecha), 'Saludo',3)
         boton_pulsado_entrada = False
         print("Botón HTML pulsado")
         
     if boton_pulsado_salida:
         # Simular clic en el botón HTML
-        response = django.salidaDjango(1)
+        fecha = datetime.datetime.now()
+        fecha = str(fecha.strftime('%Y-%m-%d %H:%M:%S.%f')[:-3])
+        response = django.salidaDjango(2)
         rut = index.ventanaInicio()
+        rut = formatear_rut.format_rut(rut)
+        print(rut)
         response = django.salidaDjango(rut)
+        data = ApiTotem.getApi('flujo')
+        flujo = Flujo()
+        if data:
+            for f in data:
+                flujo.idFlujo = int(f['idFlujo']) + 1
+        else:
+            flujo.idFlujo = 1
+        flujo.idMCA = mc['idMCA']
+        flujo.dirFoto = ''
+        flujo.fechaHora = fecha
+        flujo.rutTrabajador = rut
+        flujo.sentido = 2
+        dataFlujo ={
+            'idFlujo': flujo.idFlujo,
+
+            'rutTrabajador': flujo.rutTrabajador,
+
+            'sentido': flujo.sentido,
+
+            'fechaHora': flujo.fechaHora,
+
+            'dirFoto': flujo.dirFoto,
+
+            'idMCA': flujo.idMCA 
+        }
+        response = ApiTotem.agregarFlujo(dataFlujo)
         data = ApiTotem.getApi(f'persona/{formatear_rut.format_rut(rut)}')
-        index.popUp('Hasta Luego: ' + data['nombrefull']+ '\nRut: '+ data['nombrefull']+ '\nHora de Salida: '+ str(fecha), 'Despedida',5)
+        index.popUp('Hasta Luego: ' + data['nombrefull']+ '\nRut: '+ data['rutfull']+ '\nHora de Salida: '+ str(fecha), 'Despedida',5)
         boton_pulsado_salida = False
         print("Botón HTML pulsado")
 
