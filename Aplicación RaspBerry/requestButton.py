@@ -5,6 +5,7 @@ import PySimpleGUI as sg
 import re
 from servicios import ApiTotem, django, formatear_rut
 from vista import index
+import datetime
 # Configurar los pines GPIO
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(23, GPIO.IN, pull_up_down=GPIO.PUD_UP)
@@ -37,11 +38,12 @@ GPIO.add_event_detect(24, GPIO.RISING, callback=boton_pulsado_salida_callback, b
 while True:
     if boton_pulsado_entrada:
         # Simular clic en el botón HTML
+        fecha = datetime.datetime.now()
         response = django.entradaDjango(1)
         rut = index.ventanaInicio()
         response = django.entradaDjango(rut)
         data = ApiTotem.getApi(f'persona/{formatear_rut.format_rut(rut)}')
-        index.popUp('Bienvenido: ' + data['nombrefull'], 'Saludo',2)
+        index.popUp('Bienvenido: ' + data['nombrefull']+ '\nRut: '+ data['nombrefull']+ '\nHora de entrada: '+ str(fecha), 'Saludo',5)
         boton_pulsado_entrada = False
         print("Botón HTML pulsado")
         
@@ -51,7 +53,7 @@ while True:
         rut = index.ventanaInicio()
         response = django.salidaDjango(rut)
         data = ApiTotem.getApi(f'persona/{formatear_rut.format_rut(rut)}')
-        index.popUp('Hasta luego: ' + data['nombrefull'], 'Despedida',2)
+        index.popUp('Hasta Luego: ' + data['nombrefull']+ '\nRut: '+ data['nombrefull']+ '\nHora de Salida: '+ str(fecha), 'Despedida',5)
         boton_pulsado_salida = False
         print("Botón HTML pulsado")
 
