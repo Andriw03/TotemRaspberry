@@ -1,21 +1,18 @@
 from django.shortcuts import render, redirect
 import time
-import tkinter as tk
+
 
 
 # Create your views here.
 def pagina_inicio(request):
-    
     mensaje =''
     if request.method == 'POST':
         if 'btnEntrada' in request.POST:
             print("Oye yapo funciona")
-            return redirect('ingresar_rut')
-        elif 'salida' in request.POST:
+            return redirect(to='ingresar_rut') 
+        elif 'btnSalida' in request.POST:
             print ('salida') 
-
-    return render(request,'rasberry/pagina_inicio.html')
-
+    return render(request, 'rasberry/pagina_inicio.html')
 def ingresar_rut(request):
     return render(request,'rasberry/ingresar_rut.html')
 
