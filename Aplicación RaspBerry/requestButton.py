@@ -3,7 +3,7 @@ import requests
 import time
 import PySimpleGUI as sg
 import re
-from .servicios import ApiTotem, django, formatear_rut
+from servicios import ApiTotem, django, formatear_rut
 from vista import index
 # Configurar los pines GPIO
 GPIO.setmode(GPIO.BCM)
@@ -38,7 +38,7 @@ while True:
     if boton_pulsado_entrada:
         # Simular clic en el botón HTML
         response = django.entradaDjango(1)
-        rut = index.ventanaInicio
+        rut = index.ventanaInicio()
         response = django.entradaDjango(rut)
         data = ApiTotem.getApi(f'persona/{formatear_rut.format_rut(rut)}')
         index.popUp('Bienvenido: ' + data['nombrefull'], 'Saludo',2)
@@ -48,7 +48,7 @@ while True:
     if boton_pulsado_salida:
         # Simular clic en el botón HTML
         response = django.salidaDjango(1)
-        rut = index.ventanaInicio
+        rut = index.ventanaInicio()
         response = django.salidaDjango(rut)
         data = ApiTotem.getApi(f'persona/{formatear_rut.format_rut(rut)}')
         index.popUp('Hasta luego: ' + data['nombrefull'], 'Despedida',2)
