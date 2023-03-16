@@ -16,20 +16,25 @@ def ventanaInicio():
     rut=''
     # Leemos los eventos de la ventana
     #ver que pasa cuando la ventana queda abierta
+    filtro = 0
     while True:
-        
         event, values = window.read()
         if event in (None, 'Cancelar'):
             break
         if event == '-NUM-':
             rut = values['-NUM-']
-            print(rut)
             if not rut.isnumeric() :
-                print('algo')
-            elif len(rut)== 9 :
-                data = ApiTotem.getApi(f'persona/{formatear_rut.format_rut(rut)}')
-                time.sleep(5)
-                break
+                filtro = 1
+                if len(rut) == 114: 
+                    rut = formatear_rut.extraerRut(rut)
+                    break
+            elif len(rut)== 8 and filtro == 0:
+                if (formatear_rut.validar_rut(rut)):
+                    time.sleep(5)
+                    break    
+                else:
+                    dv = formatear_rut.calcular_dv(rut)
+                    rut = str(rut)+str(dv) 
 
     # Cerramos la ventana
     window.close()

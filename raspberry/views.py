@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 import time
+import requests
 
 
 
@@ -17,17 +18,14 @@ def ingresar_rut(request):
     return render(request,'rasberry/ingresar_rut.html')
 
 
-def entrada(request, id):
-    print('Presiono Entrada ' + str(id))  
-    return redirect('ingresar_rut')
-    #return render(request,'rasberry/ingresar_rut.html')
+def entrada(request, rut):
 
-def salida(request):
-    print("Ingresar Tip al scanner para Salida")
-    rut_salida = input("")
-    print('Presiono Salida')
+    return render(request,'rasberry/pagina_inicio.html')   
+
+
+def salida(request, rut):
+
     return render(request,'rasberry/pagina_inicio.html')    
-
 
 
 
