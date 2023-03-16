@@ -26,9 +26,9 @@ def calcular_dv(rut):
 
 def extraerRut(url):
     # URL completa
-
     # Busca el patrón del RUT en la URL
     rut_pattern = r"RUN¿(\d+)-?(\d)?"
+    print(rut)
     matches = re.findall(rut_pattern, url)
 
     # Extrae el RUT de la primera coincidencia

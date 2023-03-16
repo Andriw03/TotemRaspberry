@@ -26,15 +26,19 @@ def ventanaInicio():
             if not rut.isnumeric() :
                 filtro = 1
                 if len(rut) == 114: 
+                    print(rut)
                     rut = formatear_rut.extraerRut(rut)
+                    print(rut)
                     break
             elif len(rut)== 8 and filtro == 0:
                 if (formatear_rut.validar_rut(rut)):
-                    time.sleep(5)
+                    print(rut)
                     break    
                 else:
                     dv = formatear_rut.calcular_dv(rut)
                     rut = str(rut)+str(dv) 
+                    print(rut)
+                    break
 
     # Cerramos la ventana
     window.close()

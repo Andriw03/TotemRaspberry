@@ -48,11 +48,9 @@ while True:
         # Simular clic en el botón HTML
         fecha = datetime.datetime.now()
         fecha = str(fecha.strftime('%Y-%m-%d %H:%M:%S.%f')[:-3])
-        response = django.entradaDjango(1)
-        rut = index.ventanaInicio()
+        response = django.entradaDjango(rut,mca)
+        rut = index.ventanaInicio() 
         rut = formatear_rut.format_rut(rut)
-        print(rut)
-        response = django.entradaDjango(rut)
         data = ApiTotem.getApi('flujo')
         flujo = Flujo()
         if data:

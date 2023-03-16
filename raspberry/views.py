@@ -1,29 +1,49 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 import time
 import requests
+import datetime
+from .models import Lugar, MCA, Flujo
 
-
+url= 'http://localhost:3000/'
+def getApi(tabla):
+    response = requests.get(url+tabla)
+    if response.status_code == 200:
+        data= response.json()
+        return data
+    else:
+        return response.status_code
 
 # Create your views here.
 def pagina_inicio(request):
     mensaje =''
     if request.method == 'POST':
         if 'btnEntrada' in request.POST:
-            print("Oye yapo funciona")
-            return redirect(to='ingresar_rut') 
+            pass
         elif 'btnSalida' in request.POST:
-            print ('salida') 
+            pass
     return render(request, 'rasberry/pagina_inicio.html')
+
 def ingresar_rut(request):
     return render(request,'rasberry/ingresar_rut.html')
 
 
-def entrada(request, rut):
-
+def entrada(request, rut, mca):
+    persona = getApi(f'persona/{rut}')
+    mcadress = getApi(f'mca/{mca}')
+    flujo = Flujo()
+    flujo.rutTrabajador= rut
+    flujo.sentido=1
+    fecha = datetime.datetime.now()
+    flujo.fechaHora = str(fecha.strftime('%Y-%m-%d %H:%M:%S.%f')[:-3])
+    flujo.dirFoto = ''
+    newMca = MCA()
+    newMca =get_object_or_404(MCA, descripcionMCA=mca)
+    flujo.idMCA = newMca
+    flujo.save()
     return render(request,'rasberry/pagina_inicio.html')   
 
 
-def salida(request, rut):
+def salida(request, rut, mca):
 
     return render(request,'rasberry/pagina_inicio.html')    
 
@@ -35,18 +55,3 @@ def salida(request, rut):
 
 
 
-
-
-    # Buscar el dispositivo USB del escáner Honeywell 3310g
-    #dev = usb.core.find(idVendor=0x0c2e, idProduct=0x0b61)
-    #dev.set_configuration()
-    #print(dev)
-    # Configurar el puerto serial
-    #port = serial.Serial('/dev/ttyprintk', baudrate=9600, timeout=1)
-
-    # Esperar a que el escáner esté listo
-    #port.write(b'\x16\x54\x0D')
-    #response = port.read(7)
-
-    # Imprimir la respuesta del escáner
-    #print(response)
