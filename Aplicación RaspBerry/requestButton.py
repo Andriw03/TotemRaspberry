@@ -48,7 +48,6 @@ while True:
         # Simular clic en el botón HTML
         fecha = datetime.datetime.now()
         fecha = str(fecha.strftime('%Y-%m-%d %H:%M:%S.%f')[:-3])
-        response = django.entradaDjango(rut,mca)
         rut = index.ventanaInicio() 
         rut = formatear_rut.format_rut(rut)
         data = ApiTotem.getApi('flujo')
@@ -76,6 +75,7 @@ while True:
 
             'idMCA': flujo.idMCA 
         }
+        response = django.entradaDjango(rut,flujo.idMCA)
         response = ApiTotem.agregarFlujo(dataFlujo)
         data = ApiTotem.getApi(f'persona/{formatear_rut.format_rut(rut)}')
         index.popUp('Bienvenido: ' + data['nombrefull']+ '\nRut: '+ data['rutfull']+ '\nHora de entrada: '+ str(fecha), 'Saludo',3)

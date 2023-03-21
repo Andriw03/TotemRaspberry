@@ -28,18 +28,20 @@ def ingresar_rut(request):
 
 
 def entrada(request, rut, mca):
-    persona = getApi(f'persona/{rut}')
-    mcadress = getApi(f'mca/{mca}')
-    flujo = Flujo()
-    flujo.rutTrabajador= rut
-    flujo.sentido=1
-    fecha = datetime.datetime.now()
-    flujo.fechaHora = str(fecha.strftime('%Y-%m-%d %H:%M:%S.%f')[:-3])
-    flujo.dirFoto = ''
-    newMca = MCA()
-    newMca =get_object_or_404(MCA, descripcionMCA=mca)
-    flujo.idMCA = newMca
-    flujo.save()
+    try:      
+        flujo = Flujo()
+        flujo.rutTrabajador= rut
+        flujo.sentido=1
+        fecha = datetime.datetime.now()
+        flujo.fechaHora = str(fecha.strftime('%Y-%m-%d %H:%M:%S.%f')[:-3])
+        flujo.dirFoto = ''
+        newMca = MCA()
+        newMca =get_object_or_404(MCA, descripcionMCA=mca)
+        flujo.idMCA = newMca
+        print(flujo)
+        flujo.save()
+    except Exception as e:
+        print(e)
     return render(request,'rasberry/pagina_inicio.html')   
 
 
