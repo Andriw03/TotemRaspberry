@@ -11,6 +11,16 @@ import datetime
 
 
 #Al iniciar 
+#Esperar hasta que la API funcione
+while True:
+    try:
+        response = requests.get(ApiTotem.url)
+        if response.status_code == 200:
+            break
+    except requests.exceptions.RequestException:
+        pass
+    time.sleep(1)
+#obtener Mac y lugar de la raspberry
 mc = obtenerMC.obtenerMac()
 mc = ApiTotem.getApi(f'mca/{mc}')
 print(mc)
